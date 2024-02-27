@@ -34,6 +34,7 @@ public class UsuarioService {
 			return Optional.empty();
 
 		usuario.setSenha(criptografarSenha(usuario.getSenha()));
+		usuario.setAdmin(false);
 
 		return Optional.of(usuarioRepository.save(usuario));
 	
@@ -76,11 +77,12 @@ public class UsuarioService {
 			if (usuario.isPresent()) {
 
                 // Preenche o Objeto usuarioLogin com os dados encontrados 
-			   usuarioLogin.get().setId(usuario.get().getId());
+		usuarioLogin.get().setId(usuario.get().getId());
                 usuarioLogin.get().setNome(usuario.get().getNome());
                 usuarioLogin.get().setFoto(usuario.get().getFoto());
                 usuarioLogin.get().setToken(gerarToken(usuarioLogin.get().getUsuario()));
                 usuarioLogin.get().setSenha("");
+		usuarioLogin.get().setAdmin(usuario.get().isAdmin());
 				
                  // Retorna o Objeto preenchido
 			   return usuarioLogin;
